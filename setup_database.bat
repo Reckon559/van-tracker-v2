@@ -15,7 +15,7 @@ if %ERRORLEVEL% equ 0 (
     exit /b 1
 )
 
-echo [2/2] Initializing MySQL Database & Importing Full Data...
+echo [2/2] Initializing MySQL Database and Importing Full Data...
 "%PHP_EXE%" "%~dp0scripts\import_database.php"
 
 if %ERRORLEVEL% equ 0 (

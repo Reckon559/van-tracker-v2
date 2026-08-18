@@ -53,19 +53,14 @@ simulation_manager = SimulationManager()
 navigation_route_cache: dict[tuple, dict] = {}
 navigation_cache_lock = Lock()
 app = Flask(__name__)
-allowed_origins = [
-    origin.strip()
-    for origin in os.getenv(
-        "WEB_ORIGIN",
-        "http://localhost,http://127.0.0.1",
-    ).split(",")
-    if origin.strip()
-]
 CORS(
     app,
     resources={
-        r"/health": {"origins": allowed_origins},
-        r"/api/.*": {"origins": allowed_origins},
+        r"/*": {
+            "origins": "*",
+            "methods": ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
+            "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"],
+        }
     },
 )
 
@@ -750,6 +745,13 @@ def error_response(message: str, status: int):
 
 
 if __name__ == "__main__":
+    if graph_path.exists():
+        print(f"Pre-loading Kathmandu OSM road graph from {graph_path}...")
+        try:
+            graph_store.get_graph()
+            print("Kathmandu OSM road graph loaded and ready in memory.")
+        except Exception as err:
+            print(f"Warning: Could not pre-load graph: {err}")
     app.run(
         host=os.getenv("HOST", "127.0.0.1"),
         port=int(os.getenv("PORT", "5000")),
