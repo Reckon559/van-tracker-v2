@@ -7,21 +7,12 @@ $configuredBaseUrl = getenv('VAN_TRACKER_BASE_URL');
 if ($configuredBaseUrl !== false && $configuredBaseUrl !== '') {
     define('APP_BASE_URL', rtrim($configuredBaseUrl, '/'));
 } else {
-    $script = $_SERVER['SCRIPT_NAME'] ?? '';
-    $scriptDir = str_replace('\\', '/', dirname($script));
-    if ($scriptDir === '/' || $scriptDir === '.') {
-        $scriptDir = '';
+    $scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
+    if (strpos($scriptName, '/van-tracker-v2/web') !== false) {
+        define('APP_BASE_URL', '/van-tracker-v2/web');
+    } else {
+        define('APP_BASE_URL', '');
     }
-    
-    // Trim known subfolders when the page is inside /admin, /driver, /parent, /api
-    $subfolders = ['/admin', '/driver', '/parent', '/api'];
-    foreach ($subfolders as $sub) {
-        if (str_ends_with($scriptDir, $sub)) {
-            $scriptDir = substr($scriptDir, 0, -strlen($sub));
-            break;
-        }
-    }
-    define('APP_BASE_URL', rtrim($scriptDir, '/'));
 }
 
 $configuredRoutingUrl = getenv('ROUTING_SERVICE_URL');
