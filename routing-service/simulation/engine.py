@@ -1213,30 +1213,10 @@ class Simulation:
         return max(0.0, self.total_distance_m - self.distance_travelled_m)
 
     def _current_motion_speed_mps(self) -> float:
-        """Return scenario-adjusted OSM segment speed under the driver cap."""
-
-        if self.physical_speed_kmh <= 0:
+        """Return motion speed in m/s directly from the driver's physical speed setting."""
+        if self.physical_speed_kmh <= 0 or self.status != "active":
             return 0.0
-        if self.deviation_active and self._detour_segment_lengths_m:
-            index = bisect_right(
-                self._detour_cumulative_m,
-                self._detour_travelled_m + 1e-7,
-            ) - 1
-            index = max(0, min(index, len(self._detour_segment_lengths_m) - 1))
-            length = self._detour_segment_lengths_m[index]
-            base_time = self._detour_segment_base_times_sec[index]
-        else:
-            index = bisect_right(
-                self._cumulative_distances_m,
-                self.distance_travelled_m + 1e-7,
-            ) - 1
-            index = max(0, min(index, len(self._segment_lengths_m) - 1))
-            length = self._segment_lengths_m[index]
-            base_time = self._segment_base_times_sec[index]
-        osm_speed_mps = length / max(0.001, base_time)
-        scenario_speed_mps = osm_speed_mps / self._scenario_drive_factor()
-        driver_cap_mps = self.physical_speed_kmh / 3.6
-        return max(0.1, min(driver_cap_mps, scenario_speed_mps))
+        return max(0.1, self.physical_speed_kmh / 3.6)
 
     def _distance_to_next_motion_boundary(self) -> float:
         if self.deviation_active and self._detour_cumulative_m:

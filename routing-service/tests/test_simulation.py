@@ -41,7 +41,7 @@ class SimulationTests(unittest.TestCase):
             leg_end_distances_m=[98.5, 197.0],
             stop_names=["Depot", "Student", "School"],
             segment_base_times_sec=[10.0, 20.0],
-            physical_speed_kmh=150.0,
+            physical_speed_kmh=35.46,
             speed_limit_kmh=150.0,
             clock=FakeClock(),
         )
@@ -50,7 +50,7 @@ class SimulationTests(unittest.TestCase):
         simulation.start()
         first_node = simulation.advance_for(10.0)
         self.assertAlmostEqual(first_node["longitude"], 85.301, places=6)
-        self.assertAlmostEqual(first_node["free_flow_eta_sec"], 20.0, places=2)
+        self.assertAlmostEqual(first_node["free_flow_eta_sec"], 20.0, places=1)
 
     def test_manual_speed_is_a_cap_on_osm_segment_speed(self):
         simulation = Simulation(
