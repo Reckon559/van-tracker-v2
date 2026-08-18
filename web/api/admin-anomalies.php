@@ -18,10 +18,10 @@ $statement = $pdo->query(
      JOIN trips t ON t.id = ae.trip_id
      JOIN vans v ON v.id = t.van_id
      JOIN routes r ON r.id = t.route_id
-     WHERE ae.classification = 'suspicious'
+     WHERE ae.classification IN ('suspicious', 'monitor')
         OR ae.audience <> 'none'
      ORDER BY ae.id DESC
-     LIMIT 40"
+     LIMIT 50"
 );
 $events = [];
 foreach ($statement->fetchAll() as $event) {
@@ -41,7 +41,7 @@ $absenceStatement = $pdo->query(
      WHERE t.trip_type = 'afternoon'
        AND ts.attendance_status = 'absent'
        AND ts.attendance_marked_at IS NOT NULL
-     ORDER BY ts.attendance_marked_at DESC
+     ORDER BY ts.id DESC
      LIMIT 30"
 );
 foreach ($absenceStatement->fetchAll() as $absence) {
@@ -63,8 +63,11 @@ foreach ($absenceStatement->fetchAll() as $absence) {
 }
 
 usort($events, static function (array $first, array $second): int {
-    return strtotime((string) $second['created_at'])
+    $timeDiff = strtotime((string) $second['created_at'])
         <=> strtotime((string) $first['created_at']);
+    if ($timeDiff !== 0) return $timeDiff;
+    return (int) preg_replace('/\D/', '', (string) $second['id'])
+        <=> (int) preg_replace('/\D/', '', (string) $first['id']);
 });
 
 $events = array_slice($events, 0, 50);

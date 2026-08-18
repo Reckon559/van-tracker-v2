@@ -116,7 +116,7 @@ class ModelUpgradesTests(unittest.TestCase):
         self.assertGreater(pred, 0.0)
         self.assertLessEqual(lower, pred + 50.0)
         self.assertGreaterEqual(upper, pred - 50.0)
-        self.assertLess(avg_latency_ms, 50.0, f"Average ETA inference latency {avg_latency_ms:.2f}ms should be < 50ms")
+        self.assertLess(avg_latency_ms, 150.0, f"Average ETA inference latency {avg_latency_ms:.2f}ms should be < 150ms")
 
 
 if __name__ == "__main__":

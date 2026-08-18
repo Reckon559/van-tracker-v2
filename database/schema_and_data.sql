@@ -1,7 +1,7 @@
 -- ========================================================
 -- Kathmandu School Van Tracking & Safety System (van-tracker-v2)
 -- Complete Database Export (Schema + Full Data)
--- Generated at: 2026-08-18 15:18:09
+-- Generated at: 2026-08-18 16:01:44
 -- ========================================================
 
 CREATE DATABASE IF NOT EXISTS `van_tracker_v2` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -238,7 +238,7 @@ INSERT INTO `trips` (`id`, `route_id`, `van_id`, `driver_id`, `trip_type`, `stat
 (37, 2, 1, 1, 'morning', 'completed', '2026-08-14 20:41:32', '2026-08-14 20:50:19', 2047, 27.68832470, 85.30240100, 25.00, 5.00, 8527.29, 8527.29, 4, 83.60, 'medium', 'clear', 'regular', 9, 4, 'trunk', 753.41, 0.00, 0.00, 0.00, NULL, 188945639, '2026-08-17 00:26:16'),
 (38, 2, 1, 1, 'afternoon', 'completed', '2026-08-14 21:55:21', '2026-08-14 23:31:59', 26634, 27.72481380, 85.29766920, 45.00, 10.00, 9351.45, 9351.45, 4, 70.94, 'medium', 'rain', 'regular', 16, 4, 'trunk', 871.04, 0.00, 0.00, 0.00, NULL, 1565805288, '2026-08-17 01:40:00'),
 (39, 2, 1, 1, 'afternoon', 'completed', '2026-08-15 00:02:21', '2026-08-15 00:11:35', 3158, 27.72481380, 85.29766920, 30.00, 10.00, 9351.45, 9351.45, 4, 70.94, 'medium', 'rain', 'regular', 16, 5, 'trunk', 871.04, 0.00, 0.00, 0.00, NULL, 1639002752, '2026-08-17 03:46:48'),
-(40, 2, 1, 1, 'morning', 'active', '2026-08-18 12:46:29', NULL, 663, 27.71139357, 85.27816226, 10.00, 1.00, 8527.29, 3318.17, 0, 300.91, 'medium', 'clear', 'regular', 9, 1, 'trunk', 753.41, 816.30, 713.41, 942.32, 'hgb-eta-20260817-124122', 1920132973, '2026-08-19 17:27:44');
+(40, 2, 1, 1, 'morning', 'active', '2026-08-18 12:46:29', NULL, 1118, 27.70005472, 85.28164369, 50.00, 1.00, 8527.29, 4495.52, 1, 185.13, 'medium', 'clear', 'regular', 9, 1, 'trunk', 753.41, 523.82, 562.95, 586.14, 'hgb-eta-20260817-124122', 1920132973, '2026-08-18 19:44:51');
 
 -- --------------------------------------------------------
 -- Table structure for table `trip_stops`
@@ -411,7 +411,7 @@ INSERT INTO `trip_stops` (`id`, `trip_id`, `student_id`, `stop_order`, `stop_nam
 (150, 39, 1, 2, 'Nikita — Kalanki', 27.69332330, 85.28167460, 3584.50, 'student_home', 'absent', '2026-08-15 00:02:01', 2, 'skipped', NULL),
 (151, 39, 3, 3, 'Ram — Sitapaila', 27.71170820, 85.27690170, 5928.39, 'student_home', 'present', '2026-08-15 00:02:01', 2, 'arrived', '2026-08-15 00:10:48'),
 (152, 39, NULL, 4, 'Banasthali', 27.72494020, 85.29776350, 9351.45, 'depot', 'unmarked', NULL, NULL, 'arrived', '2026-08-15 00:11:35'),
-(153, 40, 3, 1, 'Ram — Sitapaila', 27.71170820, 85.27690170, 3423.06, 'student_home', 'unmarked', NULL, NULL, 'pending', NULL),
+(153, 40, 3, 1, 'Ram — Sitapaila', 27.71170820, 85.27690170, 3423.06, 'student_home', 'unmarked', NULL, NULL, 'arrived', '2026-08-18 19:03:50'),
 (154, 40, 1, 2, 'Nikita — Kalanki', 27.69332330, 85.28167460, 5731.99, 'student_home', 'unmarked', NULL, NULL, 'pending', NULL),
 (155, 40, 2, 3, 'Tara — Balkhu', 27.68475850, 85.29807410, 7772.86, 'student_home', 'unmarked', NULL, NULL, 'pending', NULL),
 (156, 40, NULL, 4, 'SEC', 27.68835940, 85.30238580, 8527.29, 'school', 'unmarked', NULL, NULL, 'pending', NULL);
@@ -480,9 +480,9 @@ CREATE TABLE `trip_telemetry` (
   UNIQUE KEY `uq_trip_sample` (`trip_id`,`sample_index`),
   KEY `idx_telemetry_trip` (`trip_id`),
   CONSTRAINT `fk_telemetry_trip` FOREIGN KEY (`trip_id`) REFERENCES `trips` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=95377 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=97916 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table `trip_telemetry` (19267 rows)
+-- Dumping data for table `trip_telemetry` (19341 rows)
 INSERT INTO `trip_telemetry` (`id`, `trip_id`, `sample_index`, `recorded_at`, `simulated_time_sec`, `latitude`, `longitude`, `current_speed_kmh`, `speed_limit_kmh`, `road_type`, `segment_length_m`, `segment_base_time_sec`, `traffic_level`, `traffic_multiplier`, `weather`, `weather_multiplier`, `stop_delay_sec`, `incident_delay_sec`, `distance_remaining_m`, `route_progress`, `hour_of_day`, `day_of_week`, `actual_remaining_sec`, `predicted_remaining_sec`) VALUES
 (1, 1, 0, '2026-07-27 08:50:26', 0, 27.72481380, 85.29766920, 0.00, 40.00, 'simulated_road', 0.00, 5.00, 'low', 1.00, 'clear', 1.00, 0.00, 0.00, 8527.29, 0.00000, 8, 0, 1228.00, NULL),
 (3, 1, 1, '2026-07-27 08:51:18', 5, 27.72469749, 85.29734200, 25.00, 40.00, 'simulated_road', 34.72, 5.00, 'low', 1.00, 'clear', 1.00, 0.00, 0.00, 8492.57, 0.00407, 8, 0, 1223.00, NULL),
@@ -19788,7 +19788,81 @@ INSERT INTO `trip_telemetry` (`id`, `trip_id`, `sample_index`, `recorded_at`, `s
 (94333, 40, 146, '2026-08-18 18:27:40', 730, 27.69823160, 85.28149000, 15.10, 40.00, 'trunk', 20.97, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3339.59, 0.61861, 9, 1, NULL, 521.14),
 (94334, 40, 147, '2026-08-18 18:27:45', 735, 27.69804457, 85.28147746, 15.20, 40.00, 'trunk', 21.11, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3318.76, 0.62099, 9, 1, NULL, 514.48),
 (94335, 40, 148, '2026-08-18 18:27:50', 740, 27.69785739, 85.28148352, 15.60, 40.00, 'trunk', 21.67, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3297.92, 0.62337, 9, 1, NULL, 507.81),
-(94634, 40, 149, '2026-08-18 18:27:56', 745, 27.69767087, 85.28149219, 14.70, 40.00, 'trunk', 20.42, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3277.17, 0.58563, 9, 1, NULL, 655.76);
+(94634, 40, 149, '2026-08-18 18:27:56', 745, 27.69767087, 85.28149219, 14.70, 40.00, 'trunk', 20.42, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3277.17, 0.58563, 9, 1, NULL, 655.76),
+(95377, 40, 150, '2026-08-18 19:04:50', 750, 27.71123440, 85.27842103, 9.70, 40.00, 'trunk', 13.47, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4968.14, 0.41738, 9, 1, NULL, 662.03),
+(95378, 40, 151, '2026-08-18 19:04:50', 755, 27.71114404, 85.27851843, 9.80, 40.00, 'trunk', 13.61, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4954.25, 0.41901, 9, 1, NULL, 662.03),
+(95379, 40, 152, '2026-08-18 19:04:50', 760, 27.71105321, 85.27861528, 9.30, 40.00, 'trunk', 12.92, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4940.36, 0.42064, 9, 1, NULL, 662.03),
+(95380, 40, 153, '2026-08-18 19:04:50', 765, 27.71096239, 85.27871213, 10.10, 40.00, 'trunk', 14.03, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4926.47, 0.42227, 9, 1, NULL, 662.03),
+(95381, 40, 154, '2026-08-18 19:04:50', 770, 27.71086721, 85.27880344, 10.00, 30.00, 'trunk', 13.89, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4912.58, 0.42390, 9, 1, NULL, 662.03),
+(95382, 40, 155, '2026-08-18 19:04:50', 775, 27.71076828, 85.27888948, 10.00, 40.00, 'trunk', 13.89, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4898.69, 0.42553, 9, 1, NULL, 662.03),
+(95383, 40, 156, '2026-08-18 19:04:50', 780, 27.71066654, 85.27897123, 10.70, 30.00, 'trunk', 14.86, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4884.80, 0.42716, 9, 1, NULL, 662.03),
+(95384, 40, 157, '2026-08-18 19:06:12', 785, 27.71056123, 85.27904711, 10.20, 30.00, 'trunk', 14.17, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4870.92, 0.42879, 9, 1, NULL, 581.78),
+(95385, 40, 158, '2026-08-18 19:06:12', 790, 27.71046201, 85.27913193, 10.20, 40.00, 'trunk', 14.17, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4857.03, 0.43041, 9, 1, NULL, 581.78),
+(95386, 40, 159, '2026-08-18 19:06:12', 795, 27.71037003, 85.27922738, 10.40, 30.00, 'trunk', 14.44, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4843.14, 0.43204, 9, 1, NULL, 581.78),
+(95387, 40, 160, '2026-08-18 19:06:12', 800, 27.71027813, 85.27932293, 9.60, 30.00, 'trunk', 13.33, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4829.25, 0.43367, 9, 1, NULL, 581.78),
+(95388, 40, 161, '2026-08-18 19:06:12', 805, 27.71018270, 85.27941387, 9.80, 40.00, 'trunk', 13.61, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4815.36, 0.43530, 9, 1, NULL, 581.78),
+(95389, 40, 162, '2026-08-18 19:06:12', 810, 27.71008850, 85.27950628, 9.70, 40.00, 'trunk', 13.47, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4801.47, 0.43693, 9, 1, NULL, 581.78),
+(95390, 40, 163, '2026-08-18 19:06:12', 815, 27.71000024, 85.27960612, 9.30, 40.00, 'trunk', 12.92, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4787.58, 0.43856, 9, 1, NULL, 581.78),
+(95391, 40, 164, '2026-08-18 19:06:12', 820, 27.70994188, 85.27973038, 10.00, 40.00, 'trunk', 13.89, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4773.69, 0.44019, 9, 1, NULL, 581.78),
+(95392, 40, 165, '2026-08-18 19:06:12', 825, 27.70988556, 85.27985631, 9.90, 40.00, 'trunk', 13.75, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4759.80, 0.44182, 9, 1, NULL, 581.78),
+(95393, 40, 166, '2026-08-18 19:06:12', 830, 27.70982489, 85.27997947, 10.00, 30.00, 'trunk', 13.89, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4745.92, 0.44344, 9, 1, NULL, 581.78),
+(95394, 40, 167, '2026-08-18 19:06:12', 835, 27.70975720, 85.28009802, 10.60, 30.00, 'trunk', 14.72, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4732.03, 0.44507, 9, 1, NULL, 581.78),
+(95395, 40, 168, '2026-08-18 19:06:12', 840, 27.70968830, 85.28021570, 10.20, 40.00, 'trunk', 14.17, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4718.14, 0.44670, 9, 1, NULL, 581.78),
+(95396, 40, 169, '2026-08-18 19:06:12', 845, 27.70962061, 85.28033427, 10.30, 40.00, 'trunk', 14.31, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4704.25, 0.44833, 9, 1, NULL, 581.78),
+(95397, 40, 170, '2026-08-18 19:06:32', 850, 27.70954935, 85.28045008, 10.30, 40.00, 'trunk', 14.31, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4690.36, 0.44996, 9, 1, NULL, 537.15),
+(95398, 40, 171, '2026-08-18 19:06:32', 855, 27.70946744, 85.28055518, 9.80, 30.00, 'trunk', 13.61, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4676.47, 0.45159, 9, 1, NULL, 537.15),
+(95399, 40, 172, '2026-08-18 19:06:32', 860, 27.70936767, 85.28064003, 9.80, 30.00, 'trunk', 13.61, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4662.58, 0.45322, 9, 1, NULL, 537.15),
+(95400, 40, 173, '2026-08-18 19:06:32', 865, 27.70926931, 85.28072695, 9.70, 30.00, 'trunk', 13.47, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4648.69, 0.45485, 9, 1, NULL, 537.15),
+(95401, 40, 174, '2026-08-18 19:06:32', 870, 27.70916899, 85.28081077, 9.40, 30.00, 'trunk', 13.06, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4634.80, 0.45647, 9, 1, NULL, 537.15),
+(95402, 40, 175, '2026-08-18 19:06:32', 875, 27.70906614, 85.28089081, 9.80, 40.00, 'trunk', 13.61, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4620.92, 0.45810, 9, 1, NULL, 537.15),
+(95403, 40, 176, '2026-08-18 19:06:32', 880, 27.70896550, 85.28097398, 9.90, 40.00, 'trunk', 13.75, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4607.03, 0.45973, 9, 1, NULL, 537.15),
+(95404, 40, 177, '2026-08-18 19:06:32', 885, 27.70887384, 85.28106864, 10.00, 30.00, 'trunk', 13.89, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4593.14, 0.46136, 9, 1, NULL, 530.42),
+(95405, 40, 178, '2026-08-18 19:06:39', 890, 27.70877449, 85.28115316, 10.40, 30.00, 'trunk', 14.44, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4579.25, 0.46299, 9, 1, NULL, 522.62),
+(95406, 40, 179, '2026-08-18 19:07:05', 895, 27.70869832, 85.28126497, 10.30, 30.00, 'trunk', 14.31, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4565.36, 0.46462, 9, 1, NULL, 503.59),
+(95407, 40, 180, '2026-08-18 19:07:05', 900, 27.70861827, 85.28137319, 10.30, 30.00, 'trunk', 14.31, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4551.47, 0.46625, 9, 1, NULL, 503.59),
+(95408, 40, 181, '2026-08-18 19:07:05', 905, 27.70853990, 85.28148305, 10.40, 30.00, 'trunk', 14.44, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4537.58, 0.46788, 9, 1, NULL, 503.59),
+(95591, 40, 182, '2026-08-18 19:07:05', 910, 27.70846152, 85.28159291, 9.90, 30.00, 'trunk', 13.75, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4523.69, 0.46950, 9, 1, NULL, 488.79),
+(95592, 40, 183, '2026-08-18 19:07:05', 915, 27.70838315, 85.28170276, 9.80, 30.00, 'trunk', 13.61, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4509.80, 0.47113, 9, 1, NULL, 488.79),
+(95593, 40, 184, '2026-08-18 19:07:23', 920, 27.70833653, 85.28176811, 0.00, 30.00, 'trunk', 0.00, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4501.54, 0.47210, 9, 1, NULL, 470.94),
+(95594, 40, 185, '2026-08-18 19:07:23', 925, 27.70833653, 85.28176811, 0.00, 30.00, 'trunk', 0.00, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4501.54, 0.47210, 9, 1, NULL, 470.94),
+(95595, 40, 186, '2026-08-18 19:07:23', 930, 27.70833653, 85.28176811, 0.00, 30.00, 'trunk', 0.00, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4501.54, 0.47210, 9, 1, NULL, 470.94),
+(95596, 40, 187, '2026-08-18 19:07:23', 935, 27.70833653, 85.28176811, 0.00, 30.00, 'trunk', 0.00, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4501.54, 0.47210, 9, 1, NULL, 470.94),
+(95597, 40, 188, '2026-08-18 19:07:27', 940, 27.70833653, 85.28176811, 0.00, 30.00, 'trunk', 0.00, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4501.54, 0.47210, 9, 1, NULL, 466.47),
+(95598, 40, 189, '2026-08-18 19:07:33', 945, 27.70833653, 85.28176811, 0.00, 30.00, 'trunk', 0.00, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4501.54, 0.47210, 9, 1, NULL, 461.45),
+(95599, 40, 190, '2026-08-18 19:07:37', 950, 27.70833653, 85.28176811, 0.00, 30.00, 'trunk', 0.00, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4501.54, 0.47210, 9, 1, NULL, 456.12),
+(95600, 40, 191, '2026-08-18 19:07:42', 955, 27.70833653, 85.28176811, 0.00, 30.00, 'trunk', 0.00, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4501.54, 0.47210, 9, 1, NULL, 451.36),
+(95793, 40, 192, '2026-08-18 19:07:50', 960, 27.70826684, 85.28185448, 9.80, 40.00, 'trunk', 13.61, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4490.04, 0.47345, 9, 1, NULL, 441.22),
+(95794, 40, 193, '2026-08-18 19:07:52', 965, 27.70817182, 85.28194547, 9.50, 30.00, 'trunk', 13.19, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4476.15, 0.47508, 9, 1, NULL, 438.64),
+(95795, 40, 194, '2026-08-18 19:07:59', 970, 27.70807322, 85.28203208, 9.70, 30.00, 'trunk', 13.47, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4462.26, 0.47671, 9, 1, NULL, 429.75),
+(95796, 40, 195, '2026-08-18 19:08:04', 975, 27.70797462, 85.28211868, 10.00, 30.00, 'trunk', 13.89, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4448.37, 0.47834, 9, 1, NULL, 423.07),
+(95797, 40, 196, '2026-08-18 19:08:08', 980, 27.70787579, 85.28220497, 10.00, 30.00, 'trunk', 13.89, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4434.48, 0.47997, 9, 1, NULL, 419.35),
+(95995, 40, 197, '2026-08-18 19:08:12', 985, 27.70777672, 85.28229088, 10.30, 30.00, 'trunk', 14.31, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4420.59, 0.48159, 9, 1, NULL, 412.84),
+(96194, 40, 198, '2026-08-18 19:08:18', 990, 27.70776479, 85.28230552, 10.30, 30.00, 'trunk', 14.31, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4418.58, 0.48183, 9, 1, NULL, 407.77),
+(96195, 40, 199, '2026-08-18 19:08:22', 995, 27.70771058, 85.28243263, 10.30, 30.00, 'trunk', 14.31, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4404.70, 0.48346, 9, 1, NULL, 401.40),
+(96396, 40, 200, '2026-08-18 19:08:27', 1000, 27.70735362, 85.28248325, 50.50, 40.00, 'trunk', 70.14, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4359.11, 0.48881, 9, 1, NULL, 392.24),
+(96397, 40, 201, '2026-08-18 19:08:35', 1005, 27.70673120, 85.28242649, 49.60, 40.00, 'trunk', 68.89, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4289.67, 0.49695, 9, 1, NULL, 376.24),
+(96398, 40, 202, '2026-08-18 19:08:37', 1010, 27.70611039, 85.28234959, 50.10, 40.00, 'trunk', 69.58, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4220.22, 0.50509, 9, 1, NULL, 371.17),
+(96602, 40, 203, '2026-08-18 19:08:42', 1015, 27.70557471, 85.28228185, 34.40, 40.00, 'trunk', 47.78, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4160.28, 0.51212, 9, 1, NULL, 361.24),
+(96807, 40, 204, '2026-08-18 19:08:54', 1020, 27.70513931, 85.28223800, 34.90, 40.00, 'trunk', 48.47, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4111.67, 0.51782, 9, 1, NULL, 909.76),
+(96809, 40, 205, '2026-08-18 19:08:55', 1025, 27.70410539, 85.28213049, 33.80, 40.00, 'trunk', 46.94, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 5087.45, 0.47108, 9, 1, NULL, 899.96),
+(96810, 40, 206, '2026-08-18 19:09:01', 1030, 27.70367149, 85.28207017, 34.80, 40.00, 'trunk', 48.33, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 5038.83, 0.47613, 9, 1, NULL, 868.91),
+(96811, 40, 207, '2026-08-18 19:09:04', 1035, 27.70323731, 85.28201255, 33.80, 40.00, 'trunk', 46.94, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4990.22, 0.48119, 9, 1, NULL, 865.71),
+(96812, 40, 208, '2026-08-18 19:09:08', 1040, 27.70311859, 85.28243945, 34.80, 20.00, 'trunk', 48.33, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4941.61, 0.48624, 9, 1, NULL, 865.71),
+(96813, 40, 209, '2026-08-18 19:09:12', 1045, 27.70296374, 85.28289490, 34.10, 20.00, 'trunk', 47.36, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4893.00, 0.49129, 9, 1, NULL, 865.71),
+(96814, 40, 210, '2026-08-18 19:09:18', 1050, 27.70292392, 85.28335152, 33.20, 20.00, 'trunk', 46.11, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4844.39, 0.49635, 9, 1, NULL, 865.71),
+(96815, 40, 211, '2026-08-18 19:09:22', 1055, 27.70284452, 85.28380547, 35.10, 20.00, 'trunk', 48.75, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4795.78, 0.50140, 9, 1, NULL, 865.71),
+(97028, 40, 212, '2026-08-18 19:09:27', 1060, 27.70275663, 85.28427847, 34.40, 20.00, 'trunk', 47.78, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4159.51, 0.51963, 9, 1, NULL, 865.71),
+(97029, 40, 213, '2026-08-18 19:09:32', 1065, 27.70280741, 85.28408314, 33.60, 20.00, 'trunk', 46.67, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4110.90, 0.52525, 9, 1, NULL, 653.33),
+(97030, 40, 214, '2026-08-18 19:09:38', 1070, 27.70283294, 85.28359562, 34.60, 20.00, 'trunk', 48.06, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4062.29, 0.53086, 9, 1, NULL, 635.52),
+(97031, 40, 215, '2026-08-18 19:09:42', 1075, 27.70290494, 85.28316577, 33.60, 20.00, 'trunk', 46.67, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 4013.68, 0.53647, 9, 1, NULL, 623.83),
+(97248, 40, 216, '2026-08-18 19:09:47', 1080, 27.70295584, 85.28290895, 0.00, 20.00, 'trunk', 0.00, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3987.45, 0.53950, 9, 1, NULL, 606.24),
+(97466, 40, 217, '2026-08-18 19:09:53', 1085, 27.70302532, 85.28278547, 35.00, 20.00, 'trunk', 48.61, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3973.05, 0.54117, 9, 1, NULL, 595.51),
+(97467, 40, 218, '2026-08-18 19:09:58', 1090, 27.70313286, 85.28231079, 33.10, 20.00, 'trunk', 45.97, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3924.44, 0.54678, 9, 1, NULL, 584.49),
+(97687, 40, 219, '2026-08-18 19:10:02', 1095, 27.70287315, 85.28196793, 49.30, 40.00, 'trunk', 68.47, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3858.25, 0.55442, 9, 1, NULL, 571.17),
+(97688, 40, 220, '2026-08-18 19:10:08', 1100, 27.70225304, 85.28188439, 49.70, 40.00, 'trunk', 69.03, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3788.81, 0.56244, 9, 1, NULL, 560.30),
+(97689, 40, 221, '2026-08-18 19:10:13', 1105, 27.70163070, 85.28182738, 48.80, 40.00, 'trunk', 67.78, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3719.36, 0.57046, 9, 1, NULL, 549.91),
+(97690, 40, 222, '2026-08-18 19:10:18', 1110, 27.70100927, 85.28175747, 49.80, 40.00, 'trunk', 69.17, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3649.92, 0.57848, 9, 1, NULL, 539.28),
+(97691, 40, 223, '2026-08-18 19:10:22', 1115, 27.70038845, 85.28168094, 48.60, 40.00, 'trunk', 67.50, 5.00, 'medium', 1.45, 'clear', 1.00, 0.00, 0.00, 3580.47, 0.58650, 9, 1, NULL, 529.25);
 
 -- --------------------------------------------------------
 -- Table structure for table `anomaly_events`
@@ -19810,9 +19884,9 @@ CREATE TABLE `anomaly_events` (
   UNIQUE KEY `uq_anomaly_event_dedup` (`dedup_key`),
   KEY `idx_anomaly_trip` (`trip_id`,`id`),
   CONSTRAINT `fk_anomaly_trip` FOREIGN KEY (`trip_id`) REFERENCES `trips` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19741 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20022 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table `anomaly_events` (177 rows)
+-- Dumping data for table `anomaly_events` (182 rows)
 INSERT INTO `anomaly_events` (`id`, `trip_id`, `anomaly_type`, `classification`, `isolation_status`, `isolation_score`, `audience`, `reason`, `decision_data`, `dedup_key`, `created_at`) VALUES
 (1, 11, 'route_deviation', 'monitor', 'monitor', -0.602405, 'none', 'Temporary deviation is inside the grace period.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Temporary deviation is inside the grace period.\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:11:route_deviation:monitor:none', '2026-08-14 01:51:24'),
 (29, 11, 'route_deviation', 'normal', 'monitor', -0.542270, 'none', 'Van returned to the planned route; no parent alert was issued.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Van returned to the planned route; no parent alert was issued.\",\"status\":\"normal\",\"type\":\"route_deviation\"}', 'anomaly:11:route_deviation:normal:none', '2026-08-14 01:51:51'),
@@ -19975,22 +20049,27 @@ INSERT INTO `anomaly_events` (`id`, `trip_id`, `anomaly_type`, `classification`,
 (17849, 39, 'route_deviation', 'suspicious', 'suspicious', -0.737740, 'staff', 'Van remained off-route for 221 seconds and travelled 988 metres off-route.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Van remained off-route for 221 seconds and travelled 988 metres off-route.\",\"status\":\"suspicious\",\"type\":\"route_deviation\"}', 'anomaly:39:route_deviation:suspicious:staff:deviation-2', '2026-08-17 03:53:34'),
 (17856, 39, 'route_deviation', 'suspicious', 'suspicious', -0.724173, 'parent', 'Van moved at least 250 m from the route for two minutes and remained suspicious.', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Van moved at least 250 m from the route for two minutes and remained suspicious.\",\"status\":\"suspicious\",\"type\":\"route_deviation\"}', 'anomaly:39:route_deviation:suspicious:parent:deviation-2', '2026-08-17 03:53:41'),
 (17902, 39, 'route_deviation', 'normal', 'monitor', -0.619037, 'none', 'Van returned to the planned route; no parent alert was issued.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Van returned to the planned route; no parent alert was issued.\",\"status\":\"normal\",\"type\":\"route_deviation\"}', 'anomaly:39:route_deviation:normal:none:deviation-2', '2026-08-17 03:54:32'),
-(17974, 40, 'route_deviation', 'monitor', 'normal', 0.039489, 'none', 'Temporary deviation is inside the grace period.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Temporary deviation is inside the grace period.\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:monitor:none:deviation-1', '2026-08-19 17:32:35'),
-(18180, 40, 'route_deviation', 'monitor', 'monitor', 1.000000, 'staff', 'Van remained off-route for 51 seconds and travelled 398 metres off-route.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Van remained off-route for 51 seconds and travelled 398 metres off-route.\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:monitor:staff:deviation-1', '2026-08-19 07:34:53'),
-(18352, 40, 'route_deviation', 'normal', 'normal', 0.039489, 'none', 'Van returned to the planned route; no parent alert was issued.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Van returned to the planned route; no parent alert was issued.\",\"status\":\"normal\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:normal:none:deviation-1', '2026-08-19 07:37:44'),
-(18376, 40, 'route_deviation', 'monitor', 'normal', 0.039489, 'none', 'Temporary deviation is inside the grace period.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Temporary deviation is inside the grace period.\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:monitor:none:deviation-2', '2026-08-19 07:38:24'),
-(18441, 40, 'route_deviation', 'monitor', 'monitor', 1.000000, 'staff', 'Van remained off-route for 69 seconds and travelled 514 metres off-route.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Van remained off-route for 69 seconds and travelled 514 metres off-route.\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:monitor:staff:deviation-2', '2026-08-19 07:39:28'),
-(18487, 40, 'route_deviation', 'suspicious', 'suspicious', 1.000000, 'staff', 'Van remained off-route for 120 seconds and travelled 826 metres off-route.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Van remained off-route for 120 seconds and travelled 826 metres off-route.\",\"status\":\"suspicious\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:suspicious:staff:deviation-2', '2026-08-19 07:40:19'),
-(18488, 40, 'route_deviation', 'suspicious', 'suspicious', 1.000000, 'parent', 'Van moved at least 250 m from the route for two minutes and remained suspicious.', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Van moved at least 250 m from the route for two minutes and remained suspicious.\",\"status\":\"suspicious\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:suspicious:parent:deviation-2', '2026-08-19 07:40:20'),
-(18590, 40, 'long_stop', 'normal', 'normal', 0.035322, 'none', 'Stop is normal for a unknown location.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Stop is normal for a unknown location.\",\"status\":\"normal\",\"type\":\"long_stop\"}', 'anomaly:40:long_stop:normal:none:stop-1', '2026-08-19 02:28:43'),
-(18602, 40, 'overspeed', 'suspicious', 'normal', 0.099906, 'parent', 'Speed alert: the school van is travelling at 50.0 km/h (speed limit: 40 km/h).', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Speed alert: the school van is travelling at 50.0 km/h (speed limit: 40 km/h).\",\"status\":\"suspicious\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:suspicious:parent:overspeed-1', '2026-08-19 00:00:28'),
-(18608, 40, 'overspeed', 'monitor', 'monitor', 0.794254, 'staff', 'Speed warning: van is 9.8 km/h above the 40 km/h road limit.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Speed warning: van is 9.8 km/h above the 40 km/h road limit.\",\"status\":\"monitor\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:monitor:staff:overspeed-1', '2026-08-19 00:00:33'),
-(18818, 40, 'route_deviation', 'suspicious', 'suspicious', 0.880000, 'parent', 'Route alert: van moved 334 m off-route for 75s and remained suspicious.', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Route alert: van moved 334 m off-route for 75s and remained suspicious.\",\"status\":\"suspicious\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:suspicious:parent:deviation-1', '2026-08-19 00:02:38'),
-(19165, 40, 'overspeed', 'suspicious', 'normal', 0.156573, 'parent', 'Speed alert: the school van is travelling at 50.8 km/h (speed limit: 40 km/h).', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Speed alert: the school van is travelling at 50.8 km/h (speed limit: 40 km/h).\",\"status\":\"suspicious\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:suspicious:parent:overspeed-2', '2026-08-19 00:07:26'),
-(19179, 40, 'overspeed', 'monitor', 'monitor', 0.706264, 'staff', 'Speed warning: van is 8.2 km/h above the 40 km/h road limit.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Speed warning: van is 8.2 km/h above the 40 km/h road limit.\",\"status\":\"monitor\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:monitor:staff:overspeed-2', '2026-08-19 00:07:33'),
-(19220, 40, 'overspeed', 'suspicious', 'normal', 0.151573, 'parent', 'Speed alert: the school van is travelling at 50.2 km/h (speed limit: 40 km/h).', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Speed alert: the school van is travelling at 50.2 km/h (speed limit: 40 km/h).\",\"status\":\"suspicious\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:suspicious:parent:overspeed-3', '2026-08-19 00:07:55'),
-(19224, 40, 'overspeed', 'monitor', 'normal', 0.420937, 'staff', 'Speed warning: van is 9.9 km/h above the 40 km/h road limit.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Speed warning: van is 9.9 km/h above the 40 km/h road limit.\",\"status\":\"monitor\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:monitor:staff:overspeed-3', '2026-08-19 00:07:57'),
-(19599, 40, 'route_deviation', 'monitor', 'monitor', 0.676667, 'parent', 'Route deviation: van is 0 m off-route (22 m travelled off-route).', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Route deviation: van is 0 m off-route (22 m travelled off-route).\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:monitor:parent:deviation-1', '2026-08-18 18:56:28');
+(17974, 40, 'route_deviation', 'monitor', 'normal', 0.039489, 'none', 'Temporary deviation is inside the grace period.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Temporary deviation is inside the grace period.\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:monitor:none:deviation-1', '2026-08-18 19:44:51'),
+(18180, 40, 'route_deviation', 'monitor', 'monitor', 1.000000, 'staff', 'Van remained off-route for 51 seconds and travelled 398 metres off-route.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Van remained off-route for 51 seconds and travelled 398 metres off-route.\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:monitor:staff:deviation-1', '2026-08-18 19:44:51'),
+(18352, 40, 'route_deviation', 'normal', 'normal', 0.039489, 'none', 'Van returned to the planned route; no parent alert was issued.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Van returned to the planned route; no parent alert was issued.\",\"status\":\"normal\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:normal:none:deviation-1', '2026-08-18 19:44:51'),
+(18376, 40, 'route_deviation', 'monitor', 'normal', 0.039489, 'none', 'Temporary deviation is inside the grace period.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Temporary deviation is inside the grace period.\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:monitor:none:deviation-2', '2026-08-18 19:44:51'),
+(18441, 40, 'route_deviation', 'monitor', 'monitor', 1.000000, 'staff', 'Van remained off-route for 69 seconds and travelled 514 metres off-route.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Van remained off-route for 69 seconds and travelled 514 metres off-route.\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:monitor:staff:deviation-2', '2026-08-18 19:44:51'),
+(18487, 40, 'route_deviation', 'suspicious', 'suspicious', 1.000000, 'staff', 'Van remained off-route for 120 seconds and travelled 826 metres off-route.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Van remained off-route for 120 seconds and travelled 826 metres off-route.\",\"status\":\"suspicious\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:suspicious:staff:deviation-2', '2026-08-18 19:44:51'),
+(18488, 40, 'route_deviation', 'suspicious', 'suspicious', 1.000000, 'parent', 'Van moved at least 250 m from the route for two minutes and remained suspicious.', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Van moved at least 250 m from the route for two minutes and remained suspicious.\",\"status\":\"suspicious\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:suspicious:parent:deviation-2', '2026-08-18 19:44:51'),
+(18590, 40, 'long_stop', 'normal', 'normal', 0.035322, 'none', 'Stop is normal for a unknown location.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Stop is normal for a unknown location.\",\"status\":\"normal\",\"type\":\"long_stop\"}', 'anomaly:40:long_stop:normal:none:stop-1', '2026-08-18 19:44:51'),
+(18602, 40, 'overspeed', 'suspicious', 'normal', 0.099906, 'parent', 'Speed alert: the school van is travelling at 50.0 km/h (speed limit: 40 km/h).', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Speed alert: the school van is travelling at 50.0 km/h (speed limit: 40 km/h).\",\"status\":\"suspicious\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:suspicious:parent:overspeed-1', '2026-08-18 19:44:51'),
+(18608, 40, 'overspeed', 'monitor', 'monitor', 0.794254, 'staff', 'Speed warning: van is 9.8 km/h above the 40 km/h road limit.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Speed warning: van is 9.8 km/h above the 40 km/h road limit.\",\"status\":\"monitor\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:monitor:staff:overspeed-1', '2026-08-18 19:44:51'),
+(18818, 40, 'route_deviation', 'suspicious', 'suspicious', 0.880000, 'parent', 'Route alert: van moved 334 m off-route for 75s and remained suspicious.', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Route alert: van moved 334 m off-route for 75s and remained suspicious.\",\"status\":\"suspicious\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:suspicious:parent:deviation-1', '2026-08-18 19:44:51'),
+(19165, 40, 'overspeed', 'suspicious', 'normal', 0.156573, 'parent', 'Speed alert: the school van is travelling at 50.8 km/h (speed limit: 40 km/h).', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Speed alert: the school van is travelling at 50.8 km/h (speed limit: 40 km/h).\",\"status\":\"suspicious\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:suspicious:parent:overspeed-2', '2026-08-18 19:44:51'),
+(19179, 40, 'overspeed', 'monitor', 'monitor', 0.706264, 'staff', 'Speed warning: van is 8.2 km/h above the 40 km/h road limit.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Speed warning: van is 8.2 km/h above the 40 km/h road limit.\",\"status\":\"monitor\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:monitor:staff:overspeed-2', '2026-08-18 19:44:51'),
+(19220, 40, 'overspeed', 'suspicious', 'normal', 0.151573, 'parent', 'Speed alert: the school van is travelling at 50.2 km/h (speed limit: 40 km/h).', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Speed alert: the school van is travelling at 50.2 km/h (speed limit: 40 km/h).\",\"status\":\"suspicious\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:suspicious:parent:overspeed-3', '2026-08-18 19:44:51'),
+(19224, 40, 'overspeed', 'monitor', 'normal', 0.420937, 'staff', 'Speed warning: van is 9.9 km/h above the 40 km/h road limit.', '{\"alert\":true,\"audience\":\"staff\",\"notify_parent\":false,\"notify_staff\":true,\"reason\":\"Speed warning: van is 9.9 km/h above the 40 km/h road limit.\",\"status\":\"monitor\",\"type\":\"overspeed\"}', 'anomaly:40:overspeed:monitor:staff:overspeed-3', '2026-08-18 19:44:51'),
+(19599, 40, 'route_deviation', 'monitor', 'monitor', 0.676667, 'parent', 'Route deviation: van is 0 m off-route (22 m travelled off-route).', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Route deviation: van is 0 m off-route (22 m travelled off-route).\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:monitor:parent:deviation-1', '2026-08-18 18:56:28'),
+(19812, 40, 'emergency_stop', 'suspicious', 'normal', 0.035050, 'parent', 'Emergency stop was activated by transport staff.', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Emergency stop was activated by transport staff.\",\"status\":\"suspicious\",\"type\":\"emergency_stop\"}', 'anomaly:40:emergency_stop:suspicious:parent:emergency-1', '2026-08-18 19:08:12'),
+(19816, 40, 'long_stop', 'normal', 'normal', 0.035050, 'none', 'Stop is normal for a unknown location.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Stop is normal for a unknown location.\",\"status\":\"normal\",\"type\":\"long_stop\"}', 'anomaly:40:long_stop:normal:none:stop-2', '2026-08-18 19:08:14'),
+(19862, 40, 'route_deviation', 'monitor', 'normal', 0.415536, 'parent', 'Route deviation: van is 0 m off-route (110 m travelled off-route).', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Route deviation: van is 0 m off-route (110 m travelled off-route).\",\"status\":\"monitor\",\"type\":\"route_deviation\"}', 'anomaly:40:route_deviation:monitor:parent:deviation-2', '2026-08-18 19:09:01'),
+(19938, 40, 'emergency_stop', 'suspicious', 'monitor', 1.000000, 'parent', 'Emergency stop was activated by transport staff.', '{\"alert\":true,\"audience\":\"parent\",\"notify_parent\":true,\"notify_staff\":true,\"reason\":\"Emergency stop was activated by transport staff.\",\"status\":\"suspicious\",\"type\":\"emergency_stop\"}', 'anomaly:40:emergency_stop:suspicious:parent:emergency-2', '2026-08-18 19:09:45'),
+(19942, 40, 'long_stop', 'normal', 'monitor', 1.000000, 'none', 'Stop is normal for a unknown location.', '{\"alert\":false,\"audience\":\"none\",\"notify_parent\":false,\"notify_staff\":false,\"reason\":\"Stop is normal for a unknown location.\",\"status\":\"normal\",\"type\":\"long_stop\"}', 'anomaly:40:long_stop:normal:none:stop-3', '2026-08-18 19:09:46');
 
 -- --------------------------------------------------------
 -- Table structure for table `simulation_events`
@@ -20006,9 +20085,9 @@ CREATE TABLE `simulation_events` (
   PRIMARY KEY (`id`),
   KEY `fk_events_trip` (`trip_id`),
   CONSTRAINT `fk_events_trip` FOREIGN KEY (`trip_id`) REFERENCES `trips` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=563 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=575 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table `simulation_events` (562 rows)
+-- Dumping data for table `simulation_events` (574 rows)
 INSERT INTO `simulation_events` (`id`, `trip_id`, `event_type`, `simulated_time_sec`, `event_data`, `created_at`) VALUES
 (1, 1, 'trip_started', 0, '[]', '2026-07-29 12:36:12'),
 (2, 1, 'playback_change', 14, '{\"multiplier\":5}', '2026-07-29 12:36:27'),
@@ -20572,7 +20651,19 @@ INSERT INTO `simulation_events` (`id`, `trip_id`, `event_type`, `simulated_time_
 (559, 40, 'route_return', 333, '[]', '2026-08-18 18:57:19'),
 (560, 40, 'route_return', 346, '[]', '2026-08-18 18:57:32'),
 (561, 40, 'route_return', 347, '[]', '2026-08-18 18:57:33'),
-(562, 40, 'route_return', 347, '[]', '2026-08-18 18:57:34');
+(562, 40, 'route_return', 347, '[]', '2026-08-18 18:57:34'),
+(563, 40, 'pause', 918, '{\"location_context\":\"auto\"}', '2026-08-18 19:07:05'),
+(564, 40, 'resume', 956, '[]', '2026-08-18 19:07:43'),
+(565, 40, 'emergency_stop', 985, '[]', '2026-08-18 19:08:12'),
+(566, 40, 'resume', 990, '[]', '2026-08-18 19:08:17'),
+(567, 40, 'manual_speed_change', 997, '{\"speed_kmh\":50}', '2026-08-18 19:08:24'),
+(568, 40, 'manual_speed_change', 1013, '{\"speed_kmh\":35}', '2026-08-18 19:08:40'),
+(569, 40, 'route_deviation', 1021, '{\"distance_m\":400,\"direction_deg\":90}', '2026-08-18 19:08:54'),
+(570, 40, 'route_return', 1060, '[]', '2026-08-18 19:09:27'),
+(571, 40, 'emergency_stop', 1078, '[]', '2026-08-18 19:09:45'),
+(572, 40, 'resume', 1084, '[]', '2026-08-18 19:09:51'),
+(573, 40, 'manual_speed_change', 1091, '{\"speed_kmh\":50}', '2026-08-18 19:09:58'),
+(574, 40, 'route_return', 1117, '[]', '2026-08-18 19:10:24');
 
 -- --------------------------------------------------------
 -- Table structure for table `notifications`
@@ -20596,9 +20687,9 @@ CREATE TABLE `notifications` (
   CONSTRAINT `fk_notifications_parent` FOREIGN KEY (`parent_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_notifications_student` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE SET NULL,
   CONSTRAINT `fk_notifications_trip` FOREIGN KEY (`trip_id`) REFERENCES `trips` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18481 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18982 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table `notifications` (207 rows)
+-- Dumping data for table `notifications` (232 rows)
 INSERT INTO `notifications` (`id`, `parent_id`, `student_id`, `trip_id`, `type`, `message`, `dedup_key`, `is_read`, `created_at`) VALUES
 (1, 4, NULL, 6, 'trip_started', 'VAN-01 has started the afternoon school trip.', 'trip:6:parent:4:started', 0, '2026-07-30 17:18:29'),
 (2, 3, NULL, 6, 'trip_started', 'VAN-01 has started the afternoon school trip.', 'trip:6:parent:3:started', 0, '2026-07-30 17:18:29'),
@@ -20776,21 +20867,21 @@ INSERT INTO `notifications` (`id`, `parent_id`, `student_id`, `trip_id`, `type`,
 (17833, 4, 2, 39, 'arrived', 'Home arrival: Tara has reached home.', 'home-arrival:39:2', 0, '2026-08-17 03:52:48'),
 (17940, 5, 3, 39, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:39:route_deviation:deviation-2:3', 0, '2026-08-17 03:53:41'),
 (18180, 5, 3, 39, 'arrived', 'Home arrival: Ram has reached home.', 'home-arrival:39:3', 0, '2026-08-17 03:55:48'),
-(18281, 5, 3, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-2:3', 0, '2026-08-19 07:40:20'),
-(18282, 3, 1, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-2:1', 0, '2026-08-19 07:40:20'),
-(18283, 4, 2, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-2:2', 0, '2026-08-19 07:40:20'),
-(18284, 5, 3, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-1:3', 0, '2026-08-19 00:00:28'),
-(18285, 3, 1, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-1:1', 0, '2026-08-19 00:00:28'),
-(18286, 4, 2, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-1:2', 0, '2026-08-19 00:00:28'),
-(18287, 5, 3, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-1:3', 0, '2026-08-19 00:02:38'),
-(18288, 3, 1, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-1:1', 0, '2026-08-19 00:02:38'),
-(18289, 4, 2, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-1:2', 0, '2026-08-19 00:02:38'),
-(18290, 5, 3, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-2:3', 0, '2026-08-19 00:07:26'),
-(18291, 3, 1, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-2:1', 0, '2026-08-19 00:07:26'),
-(18292, 4, 2, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-2:2', 0, '2026-08-19 00:07:26'),
-(18293, 5, 3, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-3:3', 0, '2026-08-19 00:07:55'),
-(18294, 3, 1, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-3:1', 0, '2026-08-19 00:07:55'),
-(18295, 4, 2, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-3:2', 0, '2026-08-19 00:07:55'),
+(18281, 5, 3, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-2:3', 0, '2026-08-18 19:44:51'),
+(18282, 3, 1, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-2:1', 0, '2026-08-18 19:44:51'),
+(18283, 4, 2, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-2:2', 0, '2026-08-18 19:44:51'),
+(18284, 5, 3, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-1:3', 0, '2026-08-18 19:44:51'),
+(18285, 3, 1, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-1:1', 0, '2026-08-18 19:44:51'),
+(18286, 4, 2, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-1:2', 0, '2026-08-18 19:44:51'),
+(18287, 5, 3, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-1:3', 0, '2026-08-18 19:44:51'),
+(18288, 3, 1, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-1:1', 0, '2026-08-18 19:44:51'),
+(18289, 4, 2, 40, 'route_deviation', 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.', 'parent-alert:40:route_deviation:deviation-1:2', 0, '2026-08-18 19:44:51'),
+(18290, 5, 3, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-2:3', 0, '2026-08-18 19:44:51'),
+(18291, 3, 1, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-2:1', 0, '2026-08-18 19:44:51'),
+(18292, 4, 2, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-2:2', 0, '2026-08-18 19:44:51'),
+(18293, 5, 3, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-3:3', 0, '2026-08-18 19:44:51'),
+(18294, 3, 1, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-3:1', 0, '2026-08-18 19:44:51'),
+(18295, 4, 2, 40, 'overspeed', 'Speed alert: the school van exceeded its configured speed limit.', 'parent-alert:40:overspeed:overspeed-3:2', 0, '2026-08-18 19:44:51'),
 (18296, 5, 3, 40, 'overspeed', 'Speed warning: van is 9.6 km/h above the 40 km/h road limit.', 'parent-alert:40:overspeed:overspeed-1:monitor:3', 0, '2026-08-18 18:54:52'),
 (18297, 3, 1, 40, 'overspeed', 'Speed warning: van is 9.6 km/h above the 40 km/h road limit.', 'parent-alert:40:overspeed:overspeed-1:monitor:1', 0, '2026-08-18 18:54:52'),
 (18298, 4, 2, 40, 'overspeed', 'Speed warning: van is 9.6 km/h above the 40 km/h road limit.', 'parent-alert:40:overspeed:overspeed-1:monitor:2', 0, '2026-08-18 18:54:52'),
@@ -20806,7 +20897,32 @@ INSERT INTO `notifications` (`id`, `parent_id`, `student_id`, `trip_id`, `type`,
 (18477, 3, 1, 40, 'trip_started', 'Morning route started: School van is en route for Nikita\'s morning pickup.', 'morning-start:40:1', 0, '2026-08-18 19:02:50'),
 (18478, 4, 2, 40, 'trip_started', 'Morning route started: School van is en route for Tara\'s morning pickup.', 'morning-start:40:2', 0, '2026-08-18 19:02:50'),
 (18479, 5, 3, 40, 'trip_started', 'Morning route started: School van is en route for Ram\'s morning pickup.', 'morning-start:40:3', 0, '2026-08-18 19:02:50'),
-(18480, 5, 3, 40, '', 'Pickup approaching: School van is ~500m away from Ram\'s stop. Please be ready.', 'proximity-pickup:40:3', 0, '2026-08-18 19:02:50');
+(18480, 5, 3, 40, '', 'Pickup approaching: School van is ~500m away from Ram\'s stop. Please be ready.', 'proximity-pickup:40:3', 0, '2026-08-18 19:02:50'),
+(18482, 5, 3, 40, 'arrived', 'Pickup completed: Ram is safely onboard the van.', 'pickup-done:40:3', 0, '2026-08-18 19:03:50'),
+(18581, 5, 3, 40, 'emergency_stop', 'Emergency stop was activated by transport staff.', 'parent-alert:40:emergency_stop:emergency-1:suspicious:3', 0, '2026-08-18 19:08:12'),
+(18582, 3, 1, 40, 'emergency_stop', 'Emergency stop was activated by transport staff.', 'parent-alert:40:emergency_stop:emergency-1:suspicious:1', 0, '2026-08-18 19:08:12'),
+(18583, 4, 2, 40, 'emergency_stop', 'Emergency stop was activated by transport staff.', 'parent-alert:40:emergency_stop:emergency-1:suspicious:2', 0, '2026-08-18 19:08:12'),
+(18612, 5, 3, 40, 'overspeed', 'Speed alert: the school van is travelling at 51.1 km/h (speed limit: 30 km/h).', 'parent-alert:40:overspeed:overspeed-2:suspicious:3', 0, '2026-08-18 19:08:24'),
+(18613, 3, 1, 40, 'overspeed', 'Speed alert: the school van is travelling at 51.1 km/h (speed limit: 30 km/h).', 'parent-alert:40:overspeed:overspeed-2:suspicious:1', 0, '2026-08-18 19:08:24'),
+(18614, 4, 2, 40, 'overspeed', 'Speed alert: the school van is travelling at 51.1 km/h (speed limit: 30 km/h).', 'parent-alert:40:overspeed:overspeed-2:suspicious:2', 0, '2026-08-18 19:08:24'),
+(18623, 5, 3, 40, 'overspeed', 'Speed warning: van is 9.5 km/h above the 40 km/h road limit.', 'parent-alert:40:overspeed:overspeed-2:monitor:3', 0, '2026-08-18 19:08:28'),
+(18624, 3, 1, 40, 'overspeed', 'Speed warning: van is 9.5 km/h above the 40 km/h road limit.', 'parent-alert:40:overspeed:overspeed-2:monitor:1', 0, '2026-08-18 19:08:28'),
+(18625, 4, 2, 40, 'overspeed', 'Speed warning: van is 9.5 km/h above the 40 km/h road limit.', 'parent-alert:40:overspeed:overspeed-2:monitor:2', 0, '2026-08-18 19:08:28'),
+(18664, 5, 3, 40, 'route_deviation', 'Route deviation: van is 0 m off-route (110 m travelled off-route).', 'parent-alert:40:route_deviation:deviation-2:monitor:3', 0, '2026-08-18 19:09:01'),
+(18665, 3, 1, 40, 'route_deviation', 'Route deviation: van is 0 m off-route (110 m travelled off-route).', 'parent-alert:40:route_deviation:deviation-2:monitor:1', 0, '2026-08-18 19:09:01'),
+(18666, 4, 2, 40, 'route_deviation', 'Route deviation: van is 0 m off-route (110 m travelled off-route).', 'parent-alert:40:route_deviation:deviation-2:monitor:2', 0, '2026-08-18 19:09:01'),
+(18677, 5, 3, 40, 'route_deviation', 'Route alert: van moved 18 m off-route for 16s.', 'parent-alert:40:route_deviation:deviation-2:suspicious:3', 0, '2026-08-18 19:09:04'),
+(18678, 3, 1, 40, 'route_deviation', 'Route alert: van moved 18 m off-route for 16s.', 'parent-alert:40:route_deviation:deviation-2:suspicious:1', 0, '2026-08-18 19:09:04'),
+(18679, 4, 2, 40, 'route_deviation', 'Route alert: van moved 18 m off-route for 16s.', 'parent-alert:40:route_deviation:deviation-2:suspicious:2', 0, '2026-08-18 19:09:04'),
+(18822, 5, 3, 40, 'emergency_stop', 'Emergency stop was activated by transport staff.', 'parent-alert:40:emergency_stop:emergency-2:suspicious:3', 0, '2026-08-18 19:09:45'),
+(18823, 3, 1, 40, 'emergency_stop', 'Emergency stop was activated by transport staff.', 'parent-alert:40:emergency_stop:emergency-2:suspicious:1', 0, '2026-08-18 19:09:45'),
+(18824, 4, 2, 40, 'emergency_stop', 'Emergency stop was activated by transport staff.', 'parent-alert:40:emergency_stop:emergency-2:suspicious:2', 0, '2026-08-18 19:09:45'),
+(18880, 5, 3, 40, 'overspeed', 'Speed alert: the school van is travelling at 48.3 km/h (speed limit: 20 km/h).', 'parent-alert:40:overspeed:overspeed-3:suspicious:3', 0, '2026-08-18 19:09:58'),
+(18881, 3, 1, 40, 'overspeed', 'Speed alert: the school van is travelling at 48.3 km/h (speed limit: 20 km/h).', 'parent-alert:40:overspeed:overspeed-3:suspicious:1', 0, '2026-08-18 19:09:58'),
+(18882, 4, 2, 40, 'overspeed', 'Speed alert: the school van is travelling at 48.3 km/h (speed limit: 20 km/h).', 'parent-alert:40:overspeed:overspeed-3:suspicious:2', 0, '2026-08-18 19:09:58'),
+(18894, 5, 3, 40, 'overspeed', 'Speed warning: van is 9.6 km/h above the 40 km/h road limit.', 'parent-alert:40:overspeed:overspeed-3:monitor:3', 0, '2026-08-18 19:10:01'),
+(18895, 3, 1, 40, 'overspeed', 'Speed warning: van is 9.6 km/h above the 40 km/h road limit.', 'parent-alert:40:overspeed:overspeed-3:monitor:1', 0, '2026-08-18 19:10:01'),
+(18896, 4, 2, 40, 'overspeed', 'Speed warning: van is 9.6 km/h above the 40 km/h road limit.', 'parent-alert:40:overspeed:overspeed-3:monitor:2', 0, '2026-08-18 19:10:01');
 
 -- --------------------------------------------------------
 -- Table structure for table `eta_predictions`
