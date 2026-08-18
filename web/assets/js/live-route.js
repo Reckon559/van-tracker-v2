@@ -205,9 +205,14 @@
         }
 
         if (state.deviation_active && detourModel) {
-            // The live A* navigation endpoint supplies the off-route line.
-            // Do not reveal either the travelled detour or its future script.
-            return [];
+            const rejoinModelM = Math.min(
+                endModelM,
+                Number(state.deviation_rejoin_route_m || 0) * scale
+            );
+            if (rejoinModelM > 0 && rejoinModelM < endModelM) {
+                return slice(routeModel, rejoinModelM, endModelM);
+            }
+            return slice(routeModel, currentModelM, endModelM);
         }
 
         return slice(routeModel, currentModelM, endModelM);
