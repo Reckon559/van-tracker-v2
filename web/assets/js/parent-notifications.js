@@ -80,7 +80,7 @@
                 const key = String(notification.key || ('notification-' + numericId));
                 const shouldToast = !seen.has(key)
                     && (initialized || notification.type === 'absence')
-                    && Number(notification.trip_id) === recentTripId
+                    && (recentTripId === 0 || Number(notification.trip_id) === recentTripId)
                     && toastBudget > 0;
                 if (!renderedKeys.has(key)) {
                     addNotification(notification, shouldToast);

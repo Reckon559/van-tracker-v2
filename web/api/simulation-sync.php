@@ -236,6 +236,19 @@ try {
            AND (:arrived_only = 0 OR ts.status = \'arrived\')'
     );
 
+    if ($tripType === 'morning' && $databaseStatus !== 'scheduled') {
+        $insertLifecycleNotification->execute([
+            'trip_id' => $tripId,
+            'notification_type' => 'trip_started',
+            'message_prefix' => 'Morning route started: School van is en route for ',
+            'message_suffix' => '\'s morning pickup.',
+            'dedup_prefix' => 'morning-start:' . $tripId . ':',
+            'source_trip_id' => $tripId,
+            'source_trip_type' => $tripType,
+            'arrived_only' => 0,
+        ]);
+    }
+
     if ($tripType === 'afternoon' && $databaseStatus !== 'scheduled') {
         $insertLifecycleNotification->execute([
             'trip_id' => $tripId,
@@ -246,6 +259,71 @@ try {
             'source_trip_id' => $tripId,
             'source_trip_type' => $tripType,
             'arrived_only' => 0,
+        ]);
+    }
+
+    // Proximity notifications: when van is ~500m (ETA ~2 mins) away from student's stop
+    if (in_array($databaseStatus, ['active', 'paused', 'emergency'], true) && $travelledDistance > 0) {
+        $insertProximity = $pdo->prepare(
+            "INSERT IGNORE INTO notifications (
+                parent_id, student_id, trip_id, type, message, dedup_key
+             )
+             SELECT s.parent_id, s.id, :trip_id, 'proximity',
+                    CONCAT(:prefix, s.name, :suffix),
+                    CONCAT(:dedup_prefix, s.id)
+             FROM trip_stops ts
+             JOIN students s ON s.id = ts.student_id
+             WHERE ts.trip_id = :source_trip_id
+               AND ts.stop_type = 'student_home'
+               AND (:source_trip_type = 'morning' OR ts.attendance_status = 'present')
+               AND ts.status = 'pending'
+               AND ts.route_distance_m > 0
+               AND (ts.route_distance_m - :current_dist) BETWEEN 0 AND 650
+               AND s.parent_id IS NOT NULL"
+        );
+        if ($tripType === 'morning') {
+            $insertProximity->execute([
+                'trip_id' => $tripId,
+                'prefix' => 'Pickup approaching: School van is ~500m away from ',
+                'suffix' => '\'s stop. Please be ready.',
+                'dedup_prefix' => 'proximity-pickup:' . $tripId . ':',
+                'source_trip_id' => $tripId,
+                'source_trip_type' => $tripType,
+                'current_dist' => $travelledDistance,
+            ]);
+        } else {
+            $insertProximity->execute([
+                'trip_id' => $tripId,
+                'prefix' => 'Drop-off approaching: School van is ~500m away from home for ',
+                'suffix' => '.',
+                'dedup_prefix' => 'proximity-dropoff:' . $tripId . ':',
+                'source_trip_id' => $tripId,
+                'source_trip_type' => $tripType,
+                'current_dist' => $travelledDistance,
+            ]);
+        }
+    }
+
+    // Morning pickup completed notification
+    if ($tripType === 'morning' && $reachedStopCount > 0) {
+        $insertPickupDone = $pdo->prepare(
+            "INSERT IGNORE INTO notifications (
+                parent_id, student_id, trip_id, type, message, dedup_key
+             )
+             SELECT s.parent_id, s.id, :trip_id, 'arrived',
+                    CONCAT('Pickup completed: ', s.name, ' is safely onboard the van.'),
+                    CONCAT('pickup-done:', :trip_id_key, ':', s.id)
+             FROM trip_stops ts
+             JOIN students s ON s.id = ts.student_id
+             WHERE ts.trip_id = :source_trip_id
+               AND ts.stop_type = 'student_home'
+               AND ts.status = 'arrived'
+               AND s.parent_id IS NOT NULL"
+        );
+        $insertPickupDone->execute([
+            'trip_id' => $tripId,
+            'trip_id_key' => $tripId,
+            'source_trip_id' => $tripId,
         ]);
     }
 
