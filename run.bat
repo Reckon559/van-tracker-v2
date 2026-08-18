@@ -95,7 +95,7 @@ REM -------------------------------------------------------------------------
 REM 5. Launch Standalone PHP Web Server (Port 8000)
 REM -------------------------------------------------------------------------
 echo    -- Launching PHP Web Application Server (Port 8000)...
-start "VanTracker - PHP Web Server" /D "%ROOT_DIR%" "!PHP_EXE!" -S 127.0.0.1:8000 -t web
+start "VanTracker - PHP Web Server" /D "%ROOT_DIR%" "!PHP_EXE!" -S 0.0.0.0:8000 -t web
 
 REM Wait 1 second
 ping 127.0.0.1 -n 2 >nul

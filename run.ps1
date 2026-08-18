@@ -57,7 +57,7 @@ Start-Sleep -Seconds 2
 
 # 5. Start Web Server
 Write-Host "   -- Launching PHP Web Server (Port 8000)..."
-Start-Process -FilePath "cmd.exe" -ArgumentList "/k", "cd /d `"$RootPath`" && `"$PhpPath`" -S 127.0.0.1:8000 -t web" -WindowStyle Normal
+Start-Process -FilePath "cmd.exe" -ArgumentList "/k", "cd /d `"$RootPath`" && `"$PhpPath`" -S 0.0.0.0:8000 -t web" -WindowStyle Normal
 
 Start-Sleep -Seconds 1
 

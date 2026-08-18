@@ -77,14 +77,33 @@ function signed_in(): bool
     return isset($_SESSION['user_id'], $_SESSION['user_role']);
 }
 
+function is_api_request(): bool
+{
+    $script = $_SERVER['SCRIPT_NAME'] ?? '';
+    $accept = $_SERVER['HTTP_ACCEPT'] ?? '';
+    return str_contains($script, '/api/') || str_contains($accept, 'application/json');
+}
+
 function require_role(string $role): void
 {
     if (!signed_in()) {
+        if (is_api_request()) {
+            http_response_code(401);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Authentication required. Please log in.']);
+            exit;
+        }
         header('Location: ' . APP_BASE_URL . '/login.php');
         exit;
     }
 
     if ($_SESSION['user_role'] !== $role) {
+        if (is_api_request()) {
+            http_response_code(403);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => "Access denied. Current role is '{$_SESSION['user_role']}', but '{$role}' is required."]);
+            exit;
+        }
         redirect_to_dashboard();
     }
 }
@@ -92,11 +111,23 @@ function require_role(string $role): void
 function require_any_role(array $roles): void
 {
     if (!signed_in()) {
+        if (is_api_request()) {
+            http_response_code(401);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Authentication required. Please log in.']);
+            exit;
+        }
         header('Location: ' . APP_BASE_URL . '/login.php');
         exit;
     }
 
     if (!in_array($_SESSION['user_role'], $roles, true)) {
+        if (is_api_request()) {
+            http_response_code(403);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Access denied for current user role.']);
+            exit;
+        }
         redirect_to_dashboard();
     }
 }
