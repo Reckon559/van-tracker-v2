@@ -45,7 +45,15 @@ if (-not (Test-Path $PythonPath)) {
 Write-Host "   -- Python found: $PythonPath"
 
 # 3. Initialize Database
-Write-Host "[3/4] Initializing MySQL Database & Loading Complete Datasets..." -ForegroundColor Cyan
+Write-Host "[3/4] Initializing MySQL Database & Checking Service..." -ForegroundColor Cyan
+$MySqlPort = Get-NetTCPConnection -LocalPort 3306 -ErrorAction SilentlyContinue
+if (-not $MySqlPort) {
+    if (Test-Path "C:\xampp\mysql_start.bat") {
+        Write-Host "   -- MySQL not detected on port 3306. Starting XAMPP MySQL automatically..."
+        Start-Process "C:\xampp\mysql_start.bat" -WindowStyle Minimized
+        Start-Sleep -Seconds 4
+    }
+}
 & $PhpPath "$RootPath\scripts\import_database.php"
 
 # 4. Start Python Service

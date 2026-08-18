@@ -437,7 +437,7 @@ class GraphStore:
         best_score = float("inf")
         # A small shortlist keeps route-deviation control responsive so ETA
         # inference and live polling are not starved by dozens of A* searches.
-        for score, waypoint, bearing, waypoint_offset in candidates[:8]:
+        for score, waypoint, bearing, waypoint_offset in candidates[:4]:
             try:
                 first_leg = self.route(
                     anchor,

@@ -629,8 +629,14 @@
                 }
             );
             applyState(state);
-            await syncState(state);
-            if (eventType) await recordEvent(eventType, values || {});
+            syncState(state).catch(function (err) {
+                console.warn('Background state sync:', err.message);
+            });
+            if (eventType) {
+                recordEvent(eventType, values || {}).catch(function (err) {
+                    console.warn('Background event log:', err.message);
+                });
+            }
             return true;
         } catch (error) {
             showError(error.message);
@@ -656,26 +662,34 @@
     });
     addObstacleButton.addEventListener('click', async function () {
         addObstacleButton.disabled = true;
-        statusBadge.textContent = 'Allocating alternate A* road…';
-        const applied = await sendControl(
-            'add_obstacle',
-            {distance_ahead_m: Number(obstacleDistance.value)},
-            'road_obstacle'
-        );
-        if (!applied && latestState) applyState(latestState);
+        statusBadge.textContent = 'Applying detour…';
+        try {
+            const applied = await sendControl(
+                'add_obstacle',
+                {distance_ahead_m: Number(obstacleDistance.value)},
+                'road_obstacle'
+            );
+            if (!applied && latestState) applyState(latestState);
+        } finally {
+            addObstacleButton.disabled = false;
+        }
     });
     startDeviationButton.addEventListener('click', async function () {
         startDeviationButton.disabled = true;
-        statusBadge.textContent = 'Finding next road node…';
-        const applied = await sendControl(
-            'start_deviation',
-            {
-                distance_m: Number(deviationDistance.value),
-                direction_deg: Number(deviationBearing.value)
-            },
-            'route_deviation'
-        );
-        if (!applied && latestState) applyState(latestState);
+        statusBadge.textContent = 'Applying deviation…';
+        try {
+            const applied = await sendControl(
+                'start_deviation',
+                {
+                    distance_m: Number(deviationDistance.value),
+                    direction_deg: Number(deviationBearing.value)
+                },
+                'route_deviation'
+            );
+            if (!applied && latestState) applyState(latestState);
+        } finally {
+            startDeviationButton.disabled = false;
+        }
     });
     deviationDirection.addEventListener('change', function () {
         if (deviationDirection.value !== 'custom') {
@@ -692,8 +706,13 @@
         deviationDirection.value = matchingOption
             ? matchingOption.value : 'custom';
     });
-    returnRouteButton.addEventListener('click', function () {
-        sendControl('return_to_route', {}, 'route_return');
+    returnRouteButton.addEventListener('click', async function () {
+        returnRouteButton.disabled = true;
+        try {
+            await sendControl('return_to_route', {}, 'route_return');
+        } finally {
+            returnRouteButton.disabled = false;
+        }
     });
     contextRadiusButton.addEventListener('click', function () {
         contextRadiusVisible = !contextRadiusVisible;

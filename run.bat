@@ -83,12 +83,21 @@ if not exist "%ROOT_DIR%routing-service\data\kathmandu_drive.graphml" (
 REM -------------------------------------------------------------------------
 REM 3. Initialize / Check MySQL Database
 REM -------------------------------------------------------------------------
-echo [3/4] Initializing MySQL Database and Loading Datasets...
+echo [3/4] Initializing MySQL Database and Checking Service...
+netstat -ano | findstr ":3306" >nul 2>nul
+if %ERRORLEVEL% neq 0 (
+    if exist "C:\xampp\mysql_start.bat" (
+        echo    -- MySQL not detected on port 3306. Starting XAMPP MySQL automatically...
+        start "MySQL Server" /min "C:\xampp\mysql_start.bat"
+        timeout /t 4 /nobreak >nul
+    )
+)
+
 "!PHP_EXE!" "%ROOT_DIR%scripts\import_database.php"
 if %ERRORLEVEL% neq 0 (
     echo.
     echo [WARNING] MySQL connection had an issue.
-    echo Make sure MySQL is started in XAMPP on port 3306.
+    echo Make sure MySQL is started in XAMPP Control Panel on port 3306.
     echo.
 )
 
