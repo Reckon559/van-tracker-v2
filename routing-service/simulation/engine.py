@@ -1054,11 +1054,74 @@ class Simulation:
         elif self.status in {"paused", "emergency"} and simulated_delta > 0:
             self._advance_stopped_locked(simulated_delta)
 
+    def _current_segment_speed_limit_kmh(self) -> float:
+        """Derive the realistic speed limit for the active road segment."""
+        if self.deviation_active and self._detour_segment_lengths_m:
+            index = bisect_right(
+                self._detour_cumulative_m,
+                self._detour_travelled_m + 1e-7,
+            ) - 1
+            index = max(0, min(index, len(self._detour_segment_lengths_m) - 1))
+            length = self._detour_segment_lengths_m[index]
+            base_time = self._detour_segment_base_times_sec[index]
+        elif self._segment_lengths_m:
+            index = bisect_right(
+                self._cumulative_distances_m,
+                self.distance_travelled_m + 1e-7,
+            ) - 1
+            index = max(0, min(index, len(self._segment_lengths_m) - 1))
+            length = self._segment_lengths_m[index]
+            base_time = self._segment_base_times_sec[index]
+        else:
+            return self.speed_limit_kmh
+
+        base_speed_kmh = (length / max(0.001, base_time)) * 3.6
+        if base_speed_kmh >= 45:
+            road_limit = 50.0  # Ring Road / primary highway
+        elif base_speed_kmh >= 35:
+            road_limit = 40.0  # Secondary arterial road
+        elif base_speed_kmh >= 24:
+            road_limit = 30.0  # Tertiary city street
+        else:
+            road_limit = 20.0  # Residential / alley / school zone
+
+        return min(self.speed_limit_kmh, road_limit)
+
+    def _current_speed_fluctuation_kmh(self) -> float:
+        """Realistic micro-fluctuations (+- 1 to 2.5 km/h) simulating throttle & road dynamics."""
+        if (
+            self.physical_speed_kmh <= 0
+            or self.status != "active"
+            or (self.distance_travelled_m == 0.0 and self.simulated_elapsed_sec == 0.0)
+        ):
+            return 0.0
+        d = self.distance_travelled_m
+        t = self.simulated_elapsed_sec
+        fluctuation = (
+            sin(d * 0.04) * 1.2
+            + sin(t * 0.8) * 0.8
+            + sin((d + t * 4.0) * 0.07) * 0.4
+        )
+        scale = min(1.0, self.physical_speed_kmh / 30.0)
+        return round(fluctuation * scale, 2)
+
+    def _current_instantaneous_speed_kmh(self) -> float:
+        """Return the real-time fluctuating speed displayed to drivers and parents."""
+        if self.status != "active" or self.physical_speed_kmh <= 0:
+            return 0.0
+        motion_speed_kmh = self._current_motion_speed_mps() * 3.6
+        fluctuation = self._current_speed_fluctuation_kmh()
+        return max(1.0, round(motion_speed_kmh + fluctuation, 1))
+
     def _advance_behavior_locked(self, simulated_seconds: float) -> None:
-        if self.physical_speed_kmh > self.speed_limit_kmh:
+        current_speed = self._current_instantaneous_speed_kmh()
+        current_limit = self._current_segment_speed_limit_kmh()
+        if current_speed > current_limit + 2.0:
             self.overspeed_duration_sec += simulated_seconds
         else:
-            self.overspeed_duration_sec = 0.0
+            self.overspeed_duration_sec = max(
+                0.0, self.overspeed_duration_sec - simulated_seconds * 0.5
+            )
 
     def _advance_stopped_locked(self, simulated_seconds: float) -> None:
         """Advance simulated time while the vehicle remains stationary."""
@@ -1482,11 +1545,13 @@ class Simulation:
                 "latitude": round(position[0], 8),
                 "longitude": round(position[1], 8),
                 "current_speed_kmh": round(
-                    self._current_motion_speed_mps() * 3.6
-                    if self.status == "active" else 0.0,
+                    self._current_instantaneous_speed_kmh(),
                     2,
                 ),
-                "speed_limit_kmh": round(self.speed_limit_kmh, 2),
+                "speed_limit_kmh": round(
+                    self._current_segment_speed_limit_kmh(),
+                    2,
+                ),
                 "distance_remaining_m": round(
                     self._movement_distance_remaining(),
                     2,
@@ -1542,9 +1607,8 @@ class Simulation:
             if leg_index + 1 < len(self.stop_names)
             else None
         )
-        current_speed = self._current_motion_speed_mps() * 3.6
-        if self.status != "active":
-            current_speed = 0.0
+        current_speed = self._current_instantaneous_speed_kmh()
+        effective_limit = self._current_segment_speed_limit_kmh()
         stop_remaining_distances = [
             self._remaining_distance_to_route_distance(target)
             for target in self.leg_end_distances_m
@@ -1565,8 +1629,8 @@ class Simulation:
             "longitude": round(position[1], 8),
             "physical_speed_kmh": round(self.physical_speed_kmh, 2),
             "current_speed_kmh": round(current_speed, 2),
-            "speed_limit_kmh": round(self.speed_limit_kmh, 2),
-            "is_overspeed": self.physical_speed_kmh > self.speed_limit_kmh,
+            "speed_limit_kmh": round(effective_limit, 2),
+            "is_overspeed": current_speed > effective_limit + 2.0,
             "playback_multiplier": self.playback_multiplier,
             "simulated_elapsed_sec": round(self.simulated_elapsed_sec, 3),
             "distance_travelled_m": round(self.distance_travelled_m, 2),
@@ -1732,7 +1796,7 @@ class Simulation:
             "stop_duration_sec": self.stop_duration_sec,
             "stop_event_id": self.stop_event_id,
             "current_speed_kmh": state["current_speed_kmh"],
-            "speed_limit_kmh": self.speed_limit_kmh,
+            "speed_limit_kmh": state["speed_limit_kmh"],
             "overspeed_duration_sec": self.overspeed_duration_sec,
             "overspeed_event_id": self.overspeed_event_id,
             "location_context": self.location_context,

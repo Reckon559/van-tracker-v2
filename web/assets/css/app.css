@@ -592,8 +592,9 @@ input[type="checkbox"] {
     background: #f8faff;
 }
 .fleet-list-row div { display: grid; gap: .2rem; min-width: 0; }
-.fleet-list-row span { color: var(--muted); font-size: .78rem; }
-.fleet-list-row b { color: var(--blue); white-space: nowrap; }
+.leaflet-marker-icon {
+    transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
 .fleet-van-marker {
     position: relative;
     display: grid;
@@ -603,6 +604,7 @@ input[type="checkbox"] {
     background: #dce8ff;
     box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
     font-size: 24px;
+    transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .fleet-van-marker.status-active { background: #d9f7e7; }
 .fleet-van-marker.status-emergency { background: #ffe1e1; }

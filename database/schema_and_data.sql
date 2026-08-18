@@ -1,7 +1,7 @@
 -- ========================================================
 -- Kathmandu School Van Tracking & Safety System (van-tracker-v2)
 -- Complete Database Export (Schema + Full Data)
--- Generated at: 2026-08-18 10:48:54
+-- Generated at: 2026-08-18 11:06:41
 -- ========================================================
 
 CREATE DATABASE IF NOT EXISTS `van_tracker_v2` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

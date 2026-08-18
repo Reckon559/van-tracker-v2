@@ -4,11 +4,11 @@ from typing import Any
 
 
 STOP_LIMITS_SEC = {
-    "bus_stop": 120,
-    "traffic_light": 45,
-    "school": 300,
-    "depot": 300,
-    "unknown": 60,
+    "bus_stop": 300,
+    "traffic_light": 75,
+    "school": 600,
+    "depot": 600,
+    "unknown": 120,
 }
 
 
@@ -39,14 +39,32 @@ def decide(features: dict[str, Any], isolation_status: str) -> dict[str, Any]:
 
     over_by = max(0.0, speed - limit)
     if over_by > 0:
-        notify = over_by >= 5 or overspeed_duration >= 5
-        decisions.append(_decision(
-            "overspeed",
-            "suspicious" if notify else "monitor",
-            "parent" if notify else "none",
-            notify,
-            f"Van is {over_by:.1f} km/h above the configured speed limit.",
-        ))
+        is_parent_alert = over_by >= 10.0 or overspeed_duration >= 8.0
+        is_staff_alert = over_by >= 4.0 or overspeed_duration >= 4.0
+        if is_parent_alert:
+            decisions.append(_decision(
+                "overspeed",
+                "suspicious",
+                "parent",
+                True,
+                f"Speed alert: the school van is travelling at {speed:.1f} km/h (speed limit: {limit:.0f} km/h).",
+            ))
+        elif is_staff_alert:
+            decisions.append(_decision(
+                "overspeed",
+                "monitor",
+                "staff",
+                True,
+                f"Speed warning: van is {over_by:.1f} km/h above the {limit:.0f} km/h road limit.",
+            ))
+        else:
+            decisions.append(_decision(
+                "overspeed",
+                "monitor",
+                "none",
+                False,
+                f"Minor speed variation ({over_by:.1f} km/h) is within normal buffer.",
+            ))
 
     if returned:
         decisions.append(_decision(
@@ -60,9 +78,9 @@ def decide(features: dict[str, Any], isolation_status: str) -> dict[str, Any]:
                 "Temporary deviation is inside the grace period.",
             ))
         elif (
-            (maximum_route_distance >= 150 or off_route_distance >= 200)
-            and deviation_duration >= 15
-        ) or (maximum_route_distance >= 250 or off_route_distance >= 350):
+            ((maximum_route_distance >= 150 or off_route_distance >= 200) and deviation_duration >= 15)
+            or maximum_route_distance >= 250
+        ) and isolation_status == "suspicious":
             decisions.append(_decision(
                 "route_deviation", "suspicious", "parent", True,
                 f"Route alert: van moved {maximum_route_distance:.0f} m off-route for {deviation_duration:.0f}s and remained suspicious.",
@@ -85,7 +103,7 @@ def decide(features: dict[str, Any], isolation_status: str) -> dict[str, Any]:
     stop_limit = STOP_LIMITS_SEC.get(context, STOP_LIMITS_SEC["unknown"])
     if stop_duration > 0:
         if stop_duration > stop_limit:
-            is_parent_alert = stop_duration >= (stop_limit * 1.5) or stop_duration >= 90
+            is_parent_alert = stop_duration >= (stop_limit * 1.5) or stop_duration >= 180
             decisions.append(_decision(
                 "long_stop",
                 "suspicious" if is_parent_alert or isolation_status == "suspicious" else "monitor",
