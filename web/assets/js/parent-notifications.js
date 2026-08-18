@@ -97,5 +97,5 @@
     }
 
     poll();
-    window.setInterval(poll, 3000);
+    window.setInterval(poll, 1000);
 })();
