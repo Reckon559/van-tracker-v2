@@ -1,0 +1,101 @@
+{
+  "model_version": "rf-eta-20260814-130728-calibrated-v2",
+  "trained_at_utc": "2026-08-14T13:07:28.738797+00:00",
+  "dataset": "kathmandu_eta_synthetic.csv",
+  "dataset_rows": 20000,
+  "trip_count": 560,
+  "train_rows": 15939,
+  "test_rows": 4061,
+  "train_trip_count": 448,
+  "test_trip_count": 112,
+  "split_method": "GroupShuffleSplit by trip_id (80/20)",
+  "mae_sec": 50.583,
+  "rmse_sec": 75.945,
+  "r2": 0.96774,
+  "raw_rf_mae_sec": 54.624,
+  "raw_rf_rmse_sec": 83.11,
+  "raw_rf_r2": 0.96136,
+  "post_processing": "40% Random Forest + 60% OSM scenario reference",
+  "eta_refresh_interval_sec": 1,
+  "features": [
+    "latitude",
+    "longitude",
+    "distance_remaining_m",
+    "baseline_remaining_sec",
+    "current_speed_kmh",
+    "speed_limit_kmh",
+    "route_progress",
+    "hour_of_day",
+    "day_of_week",
+    "stops_remaining",
+    "incident",
+    "road_type",
+    "traffic_level",
+    "weather",
+    "school_period"
+  ],
+  "target": "actual_remaining_sec",
+  "top_feature_importances": [
+    {
+      "feature": "numeric__baseline_remaining_sec",
+      "importance": 0.563413
+    },
+    {
+      "feature": "numeric__distance_remaining_m",
+      "importance": 0.199638
+    },
+    {
+      "feature": "categorical__traffic_level_high",
+      "importance": 0.09516
+    },
+    {
+      "feature": "numeric__current_speed_kmh",
+      "importance": 0.043279
+    },
+    {
+      "feature": "numeric__route_progress",
+      "importance": 0.026001
+    },
+    {
+      "feature": "numeric__stops_remaining",
+      "importance": 0.01985
+    },
+    {
+      "feature": "categorical__traffic_level_low",
+      "importance": 0.009944
+    },
+    {
+      "feature": "numeric__incident",
+      "importance": 0.009749
+    },
+    {
+      "feature": "categorical__traffic_level_medium",
+      "importance": 0.007355
+    },
+    {
+      "feature": "categorical__weather_fog",
+      "importance": 0.004722
+    },
+    {
+      "feature": "numeric__latitude",
+      "importance": 0.004437
+    },
+    {
+      "feature": "numeric__longitude",
+      "importance": 0.003985
+    },
+    {
+      "feature": "categorical__weather_clear",
+      "importance": 0.003714
+    },
+    {
+      "feature": "numeric__hour_of_day",
+      "importance": 0.001988
+    },
+    {
+      "feature": "numeric__speed_limit_kmh",
+      "importance": 0.001873
+    }
+  ],
+  "data_scope": "Synthetic traffic scenarios grounded in Kathmandu OSM road attributes"
+}

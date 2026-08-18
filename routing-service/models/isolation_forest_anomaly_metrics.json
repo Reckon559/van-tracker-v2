@@ -1,0 +1,25 @@
+{
+  "model_version": "if-behavior-20260811-160138",
+  "trained_at_utc": "2026-08-11T16:01:38.005096+00:00",
+  "dataset_rows": 15000,
+  "training_data": "synthetic normal behavior by location context",
+  "monitor_threshold": -0.541972,
+  "suspicious_threshold": -0.640872,
+  "features": [
+    "distance_from_route_m",
+    "deviation_duration_sec",
+    "heading_difference_deg",
+    "off_route_distance_m",
+    "returned_to_route",
+    "stop_duration_sec",
+    "current_speed_kmh",
+    "speed_limit_kmh",
+    "overspeed_duration_sec",
+    "location_context"
+  ],
+  "output_classes": [
+    "normal",
+    "monitor",
+    "suspicious"
+  ]
+}

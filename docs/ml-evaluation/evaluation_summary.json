@@ -1,0 +1,79 @@
+{
+  "eta": {
+    "rf": {
+      "mae": 53.96009456638998,
+      "rmse": 81.4352111259031,
+      "r2": 0.9629024333039669
+    },
+    "hgb": {
+      "mae": 50.79963515350341,
+      "rmse": 74.66735029258408,
+      "r2": 0.9688123644351981
+    }
+  },
+  "anomaly": {
+    "macro_f1": 0.9983762466056234,
+    "confusion_matrix": [
+      [
+        3209,
+        2,
+        0
+      ],
+      [
+        0,
+        580,
+        0
+      ],
+      [
+        0,
+        1,
+        252
+      ]
+    ],
+    "report": {
+      "normal": {
+        "precision": 0.9948542024013722,
+        "recall": 1.0,
+        "f1-score": 0.9974204643164231,
+        "support": 580.0
+      },
+      "monitor": {
+        "precision": 1.0,
+        "recall": 0.9993771410775459,
+        "f1-score": 0.9996884735202493,
+        "support": 3211.0
+      },
+      "suspicious": {
+        "precision": 1.0,
+        "recall": 0.9960474308300395,
+        "f1-score": 0.998019801980198,
+        "support": 253.0
+      },
+      "accuracy": 0.9992581602373887,
+      "macro avg": {
+        "precision": 0.9982847341337907,
+        "recall": 0.9984748573025285,
+        "f1-score": 0.9983762466056234,
+        "support": 4044.0
+      },
+      "weighted avg": {
+        "precision": 0.9992619775946577,
+        "recall": 0.9992581602373887,
+        "f1-score": 0.9992587951726103,
+        "support": 4044.0
+      }
+    }
+  },
+  "plots_saved": [
+    "anomaly_confusion_matrix.png",
+    "anomaly_learning_curve_epochs.png",
+    "anomaly_roc_curves.png",
+    "eta_actual_vs_predicted_residuals.png",
+    "eta_learning_curve_epochs.png",
+    "eta_loss_curve_mae.png",
+    "eta_stage_decile_mae.png",
+    "eta_tolerance_accuracy_epochs.png",
+    "isolation_forest_score_distribution.png",
+    "model_architecture_comparison.png"
+  ]
+}

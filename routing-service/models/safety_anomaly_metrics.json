@@ -1,0 +1,117 @@
+{
+  "model_version": "anom-clf-20260817-124326",
+  "f1_macro": 0.9984,
+  "classes": [
+    "monitor",
+    "normal",
+    "suspicious"
+  ],
+  "confusion_matrix": [
+    [
+      580,
+      0,
+      0
+    ],
+    [
+      2,
+      3209,
+      0
+    ],
+    [
+      1,
+      0,
+      252
+    ]
+  ],
+  "classification_report": {
+    "monitor": {
+      "precision": 0.9948542024013722,
+      "recall": 1.0,
+      "f1-score": 0.9974204643164231,
+      "support": 580.0
+    },
+    "normal": {
+      "precision": 1.0,
+      "recall": 0.9993771410775459,
+      "f1-score": 0.9996884735202493,
+      "support": 3211.0
+    },
+    "suspicious": {
+      "precision": 1.0,
+      "recall": 0.9960474308300395,
+      "f1-score": 0.998019801980198,
+      "support": 253.0
+    },
+    "accuracy": 0.9992581602373887,
+    "macro avg": {
+      "precision": 0.9982847341337907,
+      "recall": 0.9984748573025285,
+      "f1-score": 0.9983762466056234,
+      "support": 4044.0
+    },
+    "weighted avg": {
+      "precision": 0.9992619775946577,
+      "recall": 0.9992581602373887,
+      "f1-score": 0.9992587951726103,
+      "support": 4044.0
+    }
+  },
+  "top_features": [
+    {
+      "feature": "numeric__deviation_duration_sec",
+      "importance": 0.15055
+    },
+    {
+      "feature": "numeric__overspeed_severity",
+      "importance": 0.14392
+    },
+    {
+      "feature": "numeric__overspeed_duration_sec",
+      "importance": 0.10784
+    },
+    {
+      "feature": "numeric__distance_from_route_m",
+      "importance": 0.08335
+    },
+    {
+      "feature": "numeric__heading_deviation_intensity",
+      "importance": 0.07798
+    },
+    {
+      "feature": "numeric__off_route_distance_m",
+      "importance": 0.07565
+    },
+    {
+      "feature": "numeric__stop_excess_ratio",
+      "importance": 0.07029
+    },
+    {
+      "feature": "numeric__stop_excess_sec",
+      "importance": 0.06873
+    },
+    {
+      "feature": "numeric__current_speed_kmh",
+      "importance": 0.06559
+    },
+    {
+      "feature": "numeric__heading_difference_deg",
+      "importance": 0.06047
+    },
+    {
+      "feature": "numeric__stop_duration_sec",
+      "importance": 0.03679
+    },
+    {
+      "feature": "numeric__deviation_spatial_rate",
+      "importance": 0.02142
+    }
+  ],
+  "split_info": {
+    "train_rows": 16166,
+    "test_rows": 4044,
+    "train_trips": 480,
+    "test_trips": 120,
+    "leakage_count": 0,
+    "split_ratio": 0.2001
+  }
+}
