@@ -70,6 +70,17 @@ if "!PYTHON_EXE!"=="" (
 echo    -- Python found: !PYTHON_EXE!
 
 REM -------------------------------------------------------------------------
+REM Auto-Build Road Graph if Missing
+REM -------------------------------------------------------------------------
+if not exist "%ROOT_DIR%routing-service\data\kathmandu_drive.graphml" (
+    echo.
+    echo    -- Road graph not found. Building Kathmandu OSM road network graph...
+    cd /d "%ROOT_DIR%routing-service"
+    "!PYTHON_EXE!" build_kathmandu_graph.py
+    cd /d "%ROOT_DIR%"
+)
+
+REM -------------------------------------------------------------------------
 REM 3. Initialize / Check MySQL Database
 REM -------------------------------------------------------------------------
 echo [3/4] Initializing MySQL Database and Loading Datasets...

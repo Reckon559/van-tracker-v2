@@ -3,7 +3,5 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .venv/
-routing-service/data/*.graphml
-routing-service/data/*.gpickle
 logs/
 
