@@ -413,21 +413,23 @@ try {
         $wasInserted = $insertAnomaly->rowCount() > 0;
         if ($wasInserted) $newAnomalyEvents++;
 
-        // Isolation Forest never sends notifications. Only the explicit
-        // decision-layer flag can create a parent alert.
-        if ($wasInserted && !empty($decision['notify_parent'])) {
-            $messages = [
-                'emergency_stop' => 'Emergency alert: the school van has made an emergency stop.',
-                'overspeed' => 'Speed alert: the school van exceeded its configured speed limit.',
-                'route_deviation' => 'Route alert: the school van moved at least 250 m off-route for two minutes and the behavior remained suspicious.',
-                'long_stop' => 'Stop alert: the school van has remained stopped unusually long.',
-            ];
+        // Insert into notifications table for parents whenever an alert is active
+        if (!empty($decision['notify_parent']) || !empty($decision['alert'])) {
+            $notificationMessage = !empty($decision['reason'])
+                ? (string) $decision['reason']
+                : match ($type) {
+                    'emergency_stop' => 'Emergency alert: the school van has made an emergency stop.',
+                    'overspeed' => 'Speed alert: the school van exceeded its configured speed limit.',
+                    'route_deviation' => 'Route alert: the school van moved off-route.',
+                    'long_stop' => 'Stop alert: the school van has remained stopped unusually long.',
+                    default => 'Safety alert: vehicle behavior requires attention.',
+                };
             $insertParentNotification->execute([
                 'trip_id' => $tripId,
                 'notification_type' => $type,
-                'message' => $messages[$type],
+                'message' => $notificationMessage,
                 'dedup_prefix' => 'parent-alert:' . $tripId . ':' . $type
-                    . ':' . $eventOccurrence . ':',
+                    . ':' . $eventOccurrence . ':' . $classification . ':',
                 'source_trip_id' => $tripId,
                 'eligibility_trip_type' => $tripType,
                 'cutoff_trip_type' => $tripType,

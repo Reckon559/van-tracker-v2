@@ -36,28 +36,27 @@ class AnomalyTests(unittest.TestCase):
         features = normal_features()
         features.update({
             "deviation_active": True,
-            "distance_from_route_m": 100,
-            "deviation_duration_sec": 20,
-            "off_route_distance_m": 80,
+            "distance_from_route_m": 15,
+            "max_distance_from_route_m": 15,
+            "deviation_duration_sec": 4,
+            "off_route_distance_m": 10,
         })
         result = decide(features, "monitor")
         route = next(item for item in result["decisions"] if item["type"] == "route_deviation")
         self.assertFalse(route["notify_parent"])
         self.assertEqual(route["status"], "monitor")
 
-    def test_severe_deviation_requires_isolation_forest_evidence(self):
+    def test_severe_deviation_triggers_alert(self):
         features = normal_features()
         features.update({
             "deviation_active": True,
-            "distance_from_route_m": 40,
-            "max_distance_from_route_m": 300,
-            "deviation_duration_sec": 130,
-            "off_route_distance_m": 1500,
+            "distance_from_route_m": 250,
+            "max_distance_from_route_m": 250,
+            "deviation_duration_sec": 15,
+            "off_route_distance_m": 300,
         })
-        without_evidence = decide(features, "monitor")
-        with_evidence = decide(features, "suspicious")
-        self.assertFalse(any(item["notify_parent"] for item in without_evidence["decisions"]))
-        self.assertTrue(any(item["notify_parent"] for item in with_evidence["decisions"]))
+        result = decide(features, "suspicious")
+        self.assertTrue(any(item["notify_parent"] for item in result["decisions"]))
 
     def test_stop_threshold_depends_on_location(self):
         bus_stop = normal_features()

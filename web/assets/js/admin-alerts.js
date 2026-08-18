@@ -83,6 +83,8 @@
         });
     }
 
+    let initialized = false;
+
     async function update() {
         if (busy) return;
         busy = true;
@@ -99,17 +101,19 @@
                 throw new Error(data.error || 'Alert update failed.');
             }
             const events = Array.isArray(data.events) ? data.events : [];
-            const recentTripId = Number(data.recent_trip_id || 0);
             const seen = readSeen();
-            events.filter(function (event) {
-                return !seen.has(String(event.id))
-                    && Number(event.trip_id) === recentTripId;
-            }).slice(0, 3).reverse().forEach(showToast);
+            let newToastBudget = 3;
             events.forEach(function (event) {
-                seen.add(String(event.id));
+                const eventKey = String(event.id);
+                if (!seen.has(eventKey) && initialized && newToastBudget > 0) {
+                    showToast(event);
+                    newToastBudget--;
+                }
+                seen.add(eventKey);
             });
             saveSeen(seen);
             render(events);
+            initialized = true;
         } catch (error) {
             count.textContent = error.message;
         } finally {
@@ -118,5 +122,5 @@
     }
 
     update();
-    window.setInterval(update, 2000);
+    window.setInterval(update, 1000);
 })();

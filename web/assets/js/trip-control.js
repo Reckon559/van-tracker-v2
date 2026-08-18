@@ -589,8 +589,11 @@
             await syncState(state);
             pollingTimer = setInterval(poll, 1000);
         } catch (error) {
-            showError(error.message + ' Check the Python terminal.');
-            statusBadge.textContent = 'Initialization failed';
+            console.warn('Initialization waiting for Python service:', error.message);
+            statusBadge.textContent = 'Connecting…';
+            statusBadge.className = 'status-badge status-paused';
+            showError('Connecting to Python routing service… (' + error.message + '). Retrying in 2s.');
+            setTimeout(initialize, 2000);
         }
     }
 
@@ -606,8 +609,9 @@
             );
             applyState(state);
             await syncState(state);
+            clearError();
         } catch (error) {
-            showError('Live update failed: ' + error.message);
+            console.warn('Simulation live update retry:', error.message);
         } finally {
             pollBusy = false;
         }
